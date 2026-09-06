@@ -1,36 +1,114 @@
 {% extends "base.html" %}
-{% block title %}Kontrol | Monitoring Pembibitan Padi{% endblock %}
-{% block page_title %}Kontrol Pompa{% endblock %}
+{% block title %}Kontrol Perangkat | Monitoring Pembibitan Padi{% endblock %}
+{% block page_title %}Kontrol & Aktuasi Pompa{% endblock %}
+
 {% block content %}
-<div class="grid gap-6 xl:grid-cols-[1fr_1.2fr]">
-  <section class="panel">
-    <div class="panel-header"><div><h2>Kontrol Perangkat</h2><p>Simulasi kontrol pompa air</p></div></div>
-    <div class="mb-6 grid gap-3">
-      <div class="status-row"><span>Status Pompa</span><b id="pumpStatus">{{ device_status.pump.status }}</b></div>
-      <div class="status-row"><span>Mode Aktif</span><b id="pumpMode">{{ device_status.pump.mode }}</b></div>
-      <div class="status-row"><span>Status ESP32</span><b>{{ device_status.esp32.status }}</b></div>
+<div class="grid gap-6 lg:grid-cols-12">
+  <!-- Device Control Section (5 Cols) -->
+  <section class="panel lg:col-span-5 flex flex-col justify-between space-y-6">
+    <div>
+      <div class="panel-header">
+        <div>
+          <h2>Kontrol Perangkat IoT</h2>
+          <p>Manual & Otomatisasi Siram Bibit</p>
+        </div>
+        <i data-lucide="sliders" class="h-4 w-4 text-emerald-400"></i>
+      </div>
+
+      <!-- Real-time Status Badges -->
+      <div class="mb-6 space-y-2.5">
+        <div class="status-row">
+          <span class="flex items-center gap-2 text-zinc-400">
+            <i data-lucide="droplet" class="h-3.5 w-3.5"></i> Status Pompa
+          </span>
+          <b id="pumpStatus" class="inline-flex items-center rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-400 font-semibold">{{ device_status.pump.status }}</b>
+        </div>
+        <div class="status-row">
+          <span class="flex items-center gap-2 text-zinc-400">
+            <i data-lucide="cog" class="h-3.5 w-3.5"></i> Mode Operasi
+          </span>
+          <b id="pumpMode" class="text-xs text-zinc-200 font-semibold">{{ device_status.pump.mode }}</b>
+        </div>
+        <div class="status-row">
+          <span class="flex items-center gap-2 text-zinc-400">
+            <i data-lucide="radio" class="h-3.5 w-3.5"></i> Node ESP32
+          </span>
+          <b class="inline-flex items-center rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-400 font-semibold">{{ device_status.esp32.status }}</b>
+        </div>
+      </div>
+
+      <!-- Control Buttons -->
+      <div class="space-y-4">
+        <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400">Aksi Penyiraman</label>
+        <div class="grid grid-cols-2 gap-3">
+          <button class="control-button border border-emerald-500/40 bg-emerald-600/90 text-white hover:bg-emerald-500 active:scale-95 shadow-lg shadow-emerald-950/40" data-pump="ON">
+            <i data-lucide="power" class="h-4 w-4"></i> SIRAM (ON)
+          </button>
+          <button class="control-button border border-rose-500/40 bg-rose-600/90 text-white hover:bg-rose-500 active:scale-95 shadow-lg shadow-rose-950/40" data-pump="OFF">
+            <i data-lucide="power-off" class="h-4 w-4"></i> MATIKAN (OFF)
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="mb-5 grid grid-cols-2 gap-3">
-      <button class="control-button bg-emerald-600 hover:bg-emerald-700" data-pump="ON">ON</button>
-      <button class="control-button bg-slate-700 hover:bg-slate-800" data-pump="OFF">OFF</button>
+
+    <!-- Mode Selector Dropdown -->
+    <div class="border-t border-zinc-800/80 pt-4">
+      <label for="pumpModeSelect" class="block text-xs font-medium text-zinc-300 mb-1.5">Pilih Mode Kontrol</label>
+      <select id="pumpModeSelect" class="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-sm text-zinc-100 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500">
+        <option>Otomatis</option>
+        <option>Manual</option>
+      </select>
     </div>
-    <label class="block text-sm font-medium">Mode Pompa</label>
-    <select id="pumpModeSelect" class="mt-1 w-full rounded border border-slate-300 px-3 py-2">
-      <option>Otomatis</option>
-      <option>Manual</option>
-    </select>
   </section>
-  <section class="panel">
-    <div class="panel-header"><div><h2>Keputusan Penyiraman</h2><p>Hasil simulasi sistem cerdas</p></div></div>
-    <div class="grid gap-4 md:grid-cols-2">
-      <article class="info-tile"><span>Keputusan Fuzzy</span><strong>{{ fuzzy.decision }}</strong></article>
-      <article class="info-tile"><span>Durasi Penyiraman</span><strong>{{ fuzzy.duration }} detik</strong></article>
-      <article class="info-tile"><span>Kelembapan Media</span><strong>{{ fuzzy.input_data.soil_moisture }}%</strong></article>
-      <article class="info-tile"><span>Status Terakhir</span><strong>{{ device_status.pump.last_seen }}</strong></article>
+
+  <!-- Decision & Log Section (7 Cols) -->
+  <section class="panel lg:col-span-7 flex flex-col justify-between space-y-6">
+    <div>
+      <div class="panel-header">
+        <div>
+          <h2>Keputusan Penyiraman Cerdas</h2>
+          <p>Hasil kalkulasi sistem fuzzy & telemetri</p>
+        </div>
+        <i data-lucide="sparkles" class="h-4 w-4 text-emerald-400"></i>
+      </div>
+
+      <!-- Metric Tiles Grid -->
+      <div class="grid gap-3 sm:grid-cols-2">
+        <article class="info-tile">
+          <span>Keputusan Fuzzy Logic</span>
+          <strong class="text-emerald-400">{{ fuzzy.decision }}</strong>
+        </article>
+
+        <article class="info-tile">
+          <span>Rekomendasi Durasi</span>
+          <strong>{{ fuzzy.duration }} Detik</strong>
+        </article>
+
+        <article class="info-tile">
+          <span>Kelembapan Media Terbaru</span>
+          <strong>{{ fuzzy.input_data.soil_moisture }}%</strong>
+        </article>
+
+        <article class="info-tile">
+          <span>Aktuasi Terakhir</span>
+          <strong class="text-xs text-zinc-300">{{ device_status.pump.last_seen }}</strong>
+        </article>
+      </div>
+
+      <!-- Pump Action History Log -->
+      <div class="mt-6">
+        <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Log Aktuasi Terbaru</h3>
+        <ul class="activity-list" id="pumpLogList">
+          {% for log in pump_logs %}
+          <li>
+            <i data-lucide="power" class="h-4 w-4 text-emerald-400 shrink-0 mt-0.5"></i>
+            <span>Pompa <strong class="text-zinc-100">{{ log.status }}</strong> mode <strong>{{ log.mode }}</strong> durasi <strong>{{ log.duration }}</strong> dtk</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-    <ul class="activity-list mt-6" id="pumpLogList">
-      {% for log in pump_logs %}<li>Pompa {{ log.status }} mode {{ log.mode }} durasi {{ log.duration }} detik</li>{% endfor %}
-    </ul>
   </section>
 </div>
 {% endblock %}
+

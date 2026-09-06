@@ -1,29 +1,61 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" class="dark h-full bg-zinc-950 text-zinc-100 antialiased">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login | Monitoring Pembibitan Padi</title>
+    <title>Masuk Dashboard | Monitoring Pembibitan Padi</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
-  <body class="min-h-screen bg-emerald-950 text-slate-900">
-    <main class="grid min-h-screen place-items-center px-4">
-      <form class="w-full max-w-sm rounded bg-white p-8 shadow-xl" method="post" action="/login">
-        <div class="mb-7">
-          <div class="mb-4 grid h-12 w-12 place-items-center rounded bg-emerald-600 text-xl font-bold text-white">P</div>
-          <h1 class="text-2xl font-semibold">Masuk Dashboard</h1>
-          <p class="mt-1 text-sm text-slate-500">Sistem monitoring dan pengendalian pembibitan padi.</p>
+  <body class="grid min-h-screen place-items-center bg-zinc-950 font-sans p-4 antialiased selection:bg-emerald-500/20 selection:text-emerald-400">
+    <div class="w-full max-w-sm rounded-xl border border-zinc-800/80 bg-zinc-900/90 p-8 shadow-2xl backdrop-blur">
+      <div class="mb-8 text-center">
+        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+          <i data-lucide="sprout" class="h-6 w-6"></i>
         </div>
-        <label class="mb-4 block">
-          <span class="mb-1 block text-sm font-medium">Email atau username</span>
-          <input class="w-full rounded border border-slate-300 px-3 py-2 outline-none focus:border-emerald-600" name="username" value="admin" required>
-        </label>
-        <label class="mb-6 block">
-          <span class="mb-1 block text-sm font-medium">Password</span>
-          <input class="w-full rounded border border-slate-300 px-3 py-2 outline-none focus:border-emerald-600" name="password" type="password" value="admin" required>
-        </label>
-        <button class="w-full rounded bg-emerald-600 px-4 py-2.5 font-semibold text-white hover:bg-emerald-700" type="submit">Login</button>
+        <h1 class="text-xl font-bold tracking-tight text-zinc-100">Masuk Dashboard</h1>
+        <p class="mt-1 text-xs text-zinc-400">Monitoring & Pengendalian Pembibitan Padi</p>
+      </div>
+
+      <form method="post" action="/login" class="space-y-4">
+        <div>
+          <label class="block mb-1 text-xs font-medium text-zinc-300">Username atau Email</label>
+          <div class="relative">
+            <input class="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 py-2.5 pl-9 text-sm text-zinc-100 outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" 
+                   name="username" value="admin" required placeholder="Nama akun">
+            <i data-lucide="user" class="absolute left-3 top-3 h-4 w-4 text-zinc-500"></i>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-xs font-medium text-zinc-300">Password</label>
+          <div class="relative">
+            <input class="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 py-2.5 pl-9 text-sm text-zinc-100 outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" 
+                   name="password" type="password" value="admin" required placeholder="••••••••">
+            <i data-lucide="lock" class="absolute left-3 top-3 h-4 w-4 text-zinc-500"></i>
+          </div>
+        </div>
+
+        <button class="w-full flex items-center justify-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 shadow-lg shadow-emerald-950/40 active:scale-95" type="submit">
+          <span>Masuk Sistem</span>
+          <i data-lucide="arrow-right" class="h-4 w-4"></i>
+        </button>
       </form>
-    </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+      });
+    </script>
   </body>
 </html>
+
