@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Monitoring | Monitoring Pembibitan Padi{% endblock %}
+{% block page_title %}Monitoring{% endblock %}
+{% block content %}
+<div class="space-y-6">
+  <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <article class="metric-card"><p>Suhu Udara</p><strong><span data-sensor="temperature">{{ latest_sensor.temperature }}</span> °C</strong><small>Sensor DHT22</small></article>
+    <article class="metric-card"><p>Kelembapan Udara</p><strong><span data-sensor="humidity">{{ latest_sensor.humidity }}</span>%</strong><small>Sensor DHT22</small></article>
+    <article class="metric-card"><p>Kelembapan Media</p><strong><span data-sensor="soil_moisture">{{ latest_sensor.soil_moisture }}</span>%</strong><small>Sensor soil moisture</small></article>
+    <article class="metric-card"><p>Intensitas Cahaya</p><strong><span data-sensor="light_intensity">{{ latest_sensor.light_intensity|int }}</span> lux</strong><small>Sensor BH1750</small></article>
+  </section>
+  <div class="panel">
+    <div class="panel-header">
+      <div><h2>Grafik Berdasarkan Waktu</h2><p>Filter rentang waktu data sensor</p></div>
+      <select id="rangeFilter" class="rounded border border-slate-300 bg-white px-3 py-2 text-sm">
+        <option value="3">3 jam</option>
+        <option value="6" selected>6 jam</option>
+        <option value="12">12 jam</option>
+        <option value="24">24 jam</option>
+      </select>
+    </div>
+    <div class="chart-box"><canvas id="sensorChart"></canvas></div>
+  </div>
+  <div class="panel overflow-hidden">
+    <div class="panel-header"><div><h2>Histori Data Sensor</h2><p>Tabel pembacaan terbaru</p></div></div>
+    <div class="overflow-x-auto">
+      <table class="data-table">
+        <thead><tr><th>Waktu</th><th>Suhu</th><th>Kelembapan</th><th>Media</th><th>Cahaya</th></tr></thead>
+        <tbody id="historyTable">
+          {% for row in history[-12:]|reverse %}
+          <tr><td>{{ row.created_at }}</td><td>{{ row.temperature }} °C</td><td>{{ row.humidity }}%</td><td>{{ row.soil_moisture }}%</td><td>{{ row.light_intensity|int }} lux</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>window.pageChart = { type: "monitoring", endpoint: "/api/sensors/history?hours=6" };</script>
+{% endblock %}

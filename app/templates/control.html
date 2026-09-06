@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Kontrol | Monitoring Pembibitan Padi{% endblock %}
+{% block page_title %}Kontrol Pompa{% endblock %}
+{% block content %}
+<div class="grid gap-6 xl:grid-cols-[1fr_1.2fr]">
+  <section class="panel">
+    <div class="panel-header"><div><h2>Kontrol Perangkat</h2><p>Simulasi kontrol pompa air</p></div></div>
+    <div class="mb-6 grid gap-3">
+      <div class="status-row"><span>Status Pompa</span><b id="pumpStatus">{{ device_status.pump.status }}</b></div>
+      <div class="status-row"><span>Mode Aktif</span><b id="pumpMode">{{ device_status.pump.mode }}</b></div>
+      <div class="status-row"><span>Status ESP32</span><b>{{ device_status.esp32.status }}</b></div>
+    </div>
+    <div class="mb-5 grid grid-cols-2 gap-3">
+      <button class="control-button bg-emerald-600 hover:bg-emerald-700" data-pump="ON">ON</button>
+      <button class="control-button bg-slate-700 hover:bg-slate-800" data-pump="OFF">OFF</button>
+    </div>
+    <label class="block text-sm font-medium">Mode Pompa</label>
+    <select id="pumpModeSelect" class="mt-1 w-full rounded border border-slate-300 px-3 py-2">
+      <option>Otomatis</option>
+      <option>Manual</option>
+    </select>
+  </section>
+  <section class="panel">
+    <div class="panel-header"><div><h2>Keputusan Penyiraman</h2><p>Hasil simulasi sistem cerdas</p></div></div>
+    <div class="grid gap-4 md:grid-cols-2">
+      <article class="info-tile"><span>Keputusan Fuzzy</span><strong>{{ fuzzy.decision }}</strong></article>
+      <article class="info-tile"><span>Durasi Penyiraman</span><strong>{{ fuzzy.duration }} detik</strong></article>
+      <article class="info-tile"><span>Kelembapan Media</span><strong>{{ fuzzy.input_data.soil_moisture }}%</strong></article>
+      <article class="info-tile"><span>Status Terakhir</span><strong>{{ device_status.pump.last_seen }}</strong></article>
+    </div>
+    <ul class="activity-list mt-6" id="pumpLogList">
+      {% for log in pump_logs %}<li>Pompa {{ log.status }} mode {{ log.mode }} durasi {{ log.duration }} detik</li>{% endfor %}
+    </ul>
+  </section>
+</div>
+{% endblock %}

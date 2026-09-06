@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Monitoring Pembibitan Padi{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+  </head>
+  <body class="bg-slate-100 text-slate-900">
+    <div class="min-h-screen lg:flex">
+      <aside class="border-b border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:left-0 lg:w-72 lg:border-b-0 lg:border-r">
+        <div class="flex h-16 items-center gap-3 border-b border-slate-200 px-6">
+          <div class="grid h-10 w-10 place-items-center rounded bg-emerald-600 text-lg font-bold text-white">P</div>
+          <div>
+            <p class="text-sm font-semibold">Pembibitan Padi</p>
+            <p class="text-xs text-slate-500">IoT Nursery MVP</p>
+          </div>
+        </div>
+        <nav class="flex gap-2 overflow-x-auto px-4 py-4 lg:block lg:space-y-1">
+          {% set links = [
+            ("dashboard", "/dashboard", "Dashboard"),
+            ("monitoring", "/monitoring", "Monitoring"),
+            ("control", "/control", "Kontrol"),
+            ("vision", "/vision", "Computer Vision"),
+            ("fuzzy", "/fuzzy", "Sistem Cerdas"),
+            ("settings", "/settings", "Pengaturan")
+          ] %}
+          {% for key, href, label in links %}
+            <a class="nav-link {% if active_page == key %}nav-link-active{% endif %}" href="{{ href }}">{{ label }}</a>
+          {% endfor %}
+        </nav>
+      </aside>
+
+      <main class="w-full lg:pl-72">
+        <header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/95 px-5 backdrop-blur">
+          <div>
+            <h1 class="text-lg font-semibold">{% block page_title %}Dashboard{% endblock %}</h1>
+            <p class="text-xs text-slate-500">Data simulasi diperbarui periodik untuk tahap MVP</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span id="esp32Badge" class="status-badge status-online">{{ device_status.esp32.status if device_status else "Online" }}</span>
+            <span class="hidden text-sm text-slate-500 sm:inline">Admin</span>
+          </div>
+        </header>
+        <section class="p-5 lg:p-8">
+          {% block content %}{% endblock %}
+        </section>
+      </main>
+    </div>
+    <script src="/static/js/app.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

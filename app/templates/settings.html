@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Pengaturan | Monitoring Pembibitan Padi{% endblock %}
+{% block page_title %}Pengaturan{% endblock %}
+{% block content %}
+<div class="grid gap-6 xl:grid-cols-2">
+  <section class="panel">
+    <div class="panel-header"><div><h2>Profil</h2><p>Pengaturan dasar pengguna</p></div></div>
+    <div class="grid gap-4">
+      <label class="form-label">Nama<input value="Admin Persemaian"></label>
+      <label class="form-label">Email<input value="admin@bibit.local"></label>
+      <button class="w-fit rounded bg-emerald-600 px-4 py-2 text-sm font-semibold text-white">Simpan Profil</button>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-header"><div><h2>Parameter Sistem</h2><p>Threshold simulasi penyiraman</p></div></div>
+    <div class="grid gap-4">
+      <label class="form-label">Batas kelembapan media (%)<input type="number" value="62"></label>
+      <label class="form-label">Batas suhu maksimum (°C)<input type="number" value="30"></label>
+      <label class="form-label">Durasi siram default (detik)<input type="number" value="45"></label>
+    </div>
+  </section>
+  <section class="panel xl:col-span-2">
+    <div class="panel-header"><div><h2>Informasi ESP32</h2><p>Konfigurasi perangkat pengembangan</p></div></div>
+    <div class="grid gap-4 md:grid-cols-3">
+      <article class="info-tile"><span>Nama</span><strong>{{ device_status.esp32.name }}</strong></article>
+      <article class="info-tile"><span>Status</span><strong>{{ device_status.esp32.status }}</strong></article>
+      <article class="info-tile"><span>Endpoint API</span><strong>/api/sensors/latest</strong></article>
+    </div>
+  </section>
+</div>
+{% endblock %}

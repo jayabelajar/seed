@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Sistem Cerdas | Monitoring Pembibitan Padi{% endblock %}
+{% block page_title %}Sistem Cerdas{% endblock %}
+{% block content %}
+<div class="space-y-6">
+  <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <article class="metric-card"><p>Suhu Input</p><strong>{{ fuzzy.input_data.temperature }} °C</strong><small>Input fuzzy</small></article>
+    <article class="metric-card"><p>Kelembapan Udara</p><strong>{{ fuzzy.input_data.humidity }}%</strong><small>Input fuzzy</small></article>
+    <article class="metric-card"><p>Kelembapan Media</p><strong>{{ fuzzy.input_data.soil_moisture }}%</strong><small>Input utama</small></article>
+    <article class="metric-card"><p>Intensitas Cahaya</p><strong>{{ fuzzy.input_data.light_intensity|int }} lux</strong><small>Input fuzzy</small></article>
+  </section>
+  <section class="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
+    <div class="panel">
+      <div class="panel-header"><div><h2>Hasil Proses Fuzzy</h2><p>Keputusan penyiraman simulasi</p></div></div>
+      <div class="grid gap-4">
+        <article class="info-tile"><span>Keputusan</span><strong>{{ fuzzy.decision }}</strong></article>
+        <article class="info-tile"><span>Durasi</span><strong>{{ fuzzy.duration }} detik</strong></article>
+      </div>
+    </div>
+    <div class="panel overflow-hidden">
+      <div class="panel-header"><div><h2>Riwayat Keputusan</h2><p>Keputusan dari data dummy</p></div></div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead><tr><th>Waktu</th><th>Suhu</th><th>Media</th><th>Keputusan</th><th>Durasi</th></tr></thead>
+          <tbody>
+            {% for item in fuzzy_history|reverse %}
+            <tr><td>{{ item.created_at }}</td><td>{{ item.input_data.temperature }} °C</td><td>{{ item.input_data.soil_moisture }}%</td><td>{{ item.decision }}</td><td>{{ item.duration }} detik</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

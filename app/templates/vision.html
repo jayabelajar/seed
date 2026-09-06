@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Computer Vision | Monitoring Pembibitan Padi{% endblock %}
+{% block page_title %}Computer Vision{% endblock %}
+{% block content %}
+<div class="grid gap-6 xl:grid-cols-[1.1fr_1fr]">
+  <section class="panel">
+    <div class="panel-header"><div><h2>Gambar Bibit Terbaru</h2><p>Data gambar dummy untuk MVP</p></div></div>
+    <img class="aspect-[4/3] w-full rounded object-cover ring-1 ring-slate-200" src="{{ vision.image_path }}" alt="Bibit padi">
+  </section>
+  <section class="space-y-6">
+    <div class="panel">
+      <div class="panel-header"><div><h2>Hasil Analisis</h2><p>Simulasi deteksi kondisi bibit</p></div></div>
+      <div class="grid gap-4">
+        <article class="info-tile"><span>Kondisi Bibit</span><strong>{{ vision.result }}</strong></article>
+        <article class="info-tile"><span>Confidence</span><strong>{{ vision.confidence }}%</strong></article>
+        <article class="info-tile"><span>Waktu Pengambilan</span><strong>{{ vision.created_at }}</strong></article>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div><h2>Riwayat Analisis</h2><p>Beberapa hasil terakhir</p></div></div>
+      <ul class="activity-list">
+        {% for item in vision_history %}<li>{{ item.result }} dengan confidence {{ item.confidence }}%</li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+</div>
+{% endblock %}
