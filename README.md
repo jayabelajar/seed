@@ -1,6 +1,6 @@
 # Sistem Monitoring dan Pengendalian Pembibitan Padi
 
-Aplikasi web MVP untuk monitoring kondisi pembibitan padi dan kontrol perangkat IoT. Pada tahap ini, data sensor, keputusan fuzzy logic, status perangkat, dan hasil computer vision masih menggunakan data dummy sesuai kebutuhan MVP pada PRD.
+Aplikasi web MVP untuk monitoring kondisi pembibitan padi dan kontrol perangkat IoT. Pada tahap ini, data sensor, keputusan fuzzy logic, status perangkat, dan hasil computer vision masih menggunakan data dummy sesuai kebutuhan MVP.
 
 ## Scope MVP
 
