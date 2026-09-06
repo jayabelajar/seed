@@ -43,14 +43,6 @@ bibit/
   .gitignore
 ```
 
-## Kenapa Kode Aplikasi Ada di `app/`
-
-Folder `app/` dipakai sebagai package utama aplikasi Python. Ini layout yang umum untuk FastAPI karena memisahkan kode aplikasi dari file proyek di root.
-
-Root folder idealnya berisi file level proyek seperti `README.md`, `.gitignore`, `requirements.txt`, konfigurasi, dokumentasi, script deployment, dan folder lain seperti `docs/` atau `tests/`. Kode runtime aplikasi ditempatkan di `app/` supaya import lebih jelas, deployment lebih rapi, dan root tidak penuh oleh file route, service, template, cache, atau aset frontend.
-
-Jika semua file diletakkan langsung di root, proyek kecil memang tetap bisa jalan. Masalahnya muncul saat mulai ada database, model, service ESP32, fuzzy logic, computer vision, test, migration, dan konfigurasi environment. Root akan cepat berantakan dan batas antara kode aplikasi, dokumentasi, dependency, dan konfigurasi menjadi kabur.
-
 ## Desain Backend
 
 ```text
