@@ -1,48 +1,111 @@
 <!doctype html>
-<html lang="id" class="dark h-full bg-zinc-950 text-zinc-100 antialiased">
+<html lang="id" class="dark h-full">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Masuk Dashboard | Monitoring Pembibitan Padi</title>
+    <title>Masuk | MyBibitGue</title>
+    
+    <!-- Pre-render Theme Check -->
+    <script>
+      if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+      [x-cloak] { display: none !important; }
+    </style>
   </head>
-  <body class="grid min-h-screen place-items-center bg-zinc-950 font-sans p-4 antialiased selection:bg-emerald-500/20 selection:text-emerald-400">
-    <div class="w-full max-w-sm rounded-xl border border-zinc-800/80 bg-zinc-900/90 p-8 shadow-2xl backdrop-blur">
-      <div class="mb-8 text-center">
-        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+  <body class="grid min-h-screen place-items-center bg-slate-50 dark:bg-zinc-950 font-sans p-4 antialiased text-zinc-900 dark:text-zinc-100 selection:bg-emerald-500/20 selection:text-emerald-400"
+        x-data="{ 
+          darkMode: document.documentElement.classList.contains('dark'),
+          showPass: false,
+          toggleTheme() {
+            this.darkMode = !this.darkMode;
+            if (this.darkMode) {
+              document.documentElement.classList.add('dark');
+              localStorage.setItem('theme', 'dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+              localStorage.setItem('theme', 'light');
+            }
+          }
+        }">
+
+    <!-- Login Card (With Dark/Light Toggle Button inside Top-Right Corner) -->
+    <div class="relative w-full max-w-sm rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/90 p-8 shadow-xl dark:shadow-2xl backdrop-blur">
+      
+      <!-- Theme Toggle Button Inside Login Card Top Right -->
+      <button @click="toggleTheme()" 
+              type="button"
+              title="Switch Theme"
+              class="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-800 transition-colors">
+        <i x-show="darkMode" data-lucide="sun" class="h-4 w-4 text-amber-400"></i>
+        <i x-show="!darkMode" data-lucide="moon" class="h-4 w-4 text-indigo-500" x-cloak></i>
+      </button>
+
+      <div class="mb-8 text-center pt-2">
+        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">
           <i data-lucide="sprout" class="h-6 w-6"></i>
         </div>
-        <h1 class="text-xl font-bold tracking-tight text-zinc-100">Masuk Dashboard</h1>
-        <p class="mt-1 text-xs text-zinc-400">Monitoring & Pengendalian Pembibitan Padi</p>
+        <h1 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Masuk Sistem</h1>
+        <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Otentikasi pengguna MyBibitGue</p>
       </div>
 
       <form method="post" action="/login" class="space-y-4">
         <div>
-          <label class="block mb-1 text-xs font-medium text-zinc-300">Username atau Email</label>
+          <label class="block mb-1 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Username atau Email</label>
           <div class="relative">
-            <input class="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 py-2.5 pl-9 text-sm text-zinc-100 outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" 
-                   name="username" value="admin" required placeholder="Nama akun">
-            <i data-lucide="user" class="absolute left-3 top-3 h-4 w-4 text-zinc-500"></i>
+            <input class="w-full rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950/80 px-3.5 py-2.5 pl-9 text-sm text-zinc-900 dark:text-zinc-100 outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" 
+                   name="username" value="admin" required placeholder="admin">
+            <i data-lucide="user" class="absolute left-3 top-3 h-4 w-4 text-zinc-400"></i>
           </div>
         </div>
 
         <div>
-          <label class="block mb-1 text-xs font-medium text-zinc-300">Password</label>
+          <label class="block mb-1 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Password</label>
           <div class="relative">
-            <input class="w-full rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 py-2.5 pl-9 text-sm text-zinc-100 outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" 
-                   name="password" type="password" value="admin" required placeholder="••••••••">
-            <i data-lucide="lock" class="absolute left-3 top-3 h-4 w-4 text-zinc-500"></i>
+            <input :type="showPass ? 'text' : 'password'" 
+                   class="w-full rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950/80 px-3.5 py-2.5 pl-9 pr-10 text-sm text-zinc-900 dark:text-zinc-100 outline-none transition focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500" 
+                   name="password" value="admin" required placeholder="••••••••">
+            <i data-lucide="lock" class="absolute left-3 top-3 h-4 w-4 text-zinc-400"></i>
+            
+            <!-- Show/Hide Password Toggle Button -->
+            <button type="button" 
+                    @click="showPass = !showPass"
+                    title="Tampilkan / Sembunyikan Password"
+                    class="absolute right-3 top-2.5 p-0.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors">
+              <i x-show="!showPass" data-lucide="eye" class="h-4 w-4"></i>
+              <i x-show="showPass" data-lucide="eye-off" class="h-4 w-4" x-cloak></i>
+            </button>
           </div>
         </div>
 
-        <button class="w-full flex items-center justify-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 shadow-lg shadow-emerald-950/40 active:scale-95" type="submit">
+        <button class="w-full flex items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 active:scale-95" type="submit">
           <span>Masuk Sistem</span>
           <i data-lucide="arrow-right" class="h-4 w-4"></i>
         </button>
@@ -58,4 +121,3 @@
     </script>
   </body>
 </html>
-

@@ -1,98 +1,78 @@
 {% extends "base.html" %}
-{% block title %}Pengaturan | Monitoring Pembibitan Padi{% endblock %}
-{% block page_title %}Pengaturan Sistem & Profil{% endblock %}
+{% block title %}Pengaturan | MyBibitGue{% endblock %}
+{% block page_title %}Pengaturan Sistem{% endblock %}
 
 {% block content %}
-<div class="grid gap-6 lg:grid-cols-2">
-  <!-- Profile Settings Panel -->
-  <section class="panel flex flex-col justify-between">
-    <div>
-      <div class="panel-header">
-        <div>
-          <h2>Profil Pengguna</h2>
-          <p>Pengaturan akun operator & persemaian</p>
-        </div>
-        <i data-lucide="user" class="h-4 w-4 text-emerald-400"></i>
-      </div>
-      <div class="space-y-4">
-        <label class="form-label">
-          <span>Nama Pengguna</span>
-          <input type="text" value="Admin Persemaian" class="w-full">
-        </label>
-        <label class="form-label">
-          <span>Alamat Email</span>
-          <input type="email" value="admin@bibit.local" class="w-full">
-        </label>
-      </div>
-    </div>
-    <div class="mt-6 border-t border-zinc-800/80 pt-4">
-      <button onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Profil berhasil diperbarui!', type: 'success' } }))"
-              class="inline-flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition-colors shadow-md shadow-emerald-950/40">
-        <i data-lucide="save" class="h-4 w-4"></i> Simpan Profil
-      </button>
-    </div>
-  </section>
-
-  <!-- Threshold Parameters Panel -->
-  <section class="panel flex flex-col justify-between">
-    <div>
-      <div class="panel-header">
-        <div>
-          <h2>Parameter Threshold Telemetri</h2>
-          <p>Batas ambang batas otomatisasi siram</p>
-        </div>
-        <i data-lucide="sliders-horizontal" class="h-4 w-4 text-emerald-400"></i>
-      </div>
-      <div class="space-y-4">
-        <label class="form-label">
-          <span>Batas Kelembapan Media Minimum (%)</span>
-          <input type="number" value="62" class="w-full">
-        </label>
-        <label class="form-label">
-          <span>Batas Suhu Udara Maksimum (°C)</span>
-          <input type="number" value="30" class="w-full">
-        </label>
-        <label class="form-label">
-          <span>Durasi Siram Default (detik)</span>
-          <input type="number" value="45" class="w-full">
-        </label>
-      </div>
-    </div>
-    <div class="mt-6 border-t border-zinc-800/80 pt-4">
-      <button onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Parameter threshold berhasil disimpan!', type: 'success' } }))"
-              class="inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-100 hover:bg-zinc-700 transition-colors">
-        <i data-lucide="check" class="h-4 w-4"></i> Simpan Threshold
-      </button>
-    </div>
-  </section>
-
-  <!-- Hardware ESP32 Info Panel -->
-  <section class="panel lg:col-span-2">
-    <div class="panel-header">
+<div class="space-y-6">
+  <div class="grid gap-6 lg:grid-cols-2">
+    <!-- Threshold Parameters Panel -->
+    <section class="panel flex flex-col justify-between">
       <div>
-        <h2>Informasi Node Controller ESP32</h2>
-        <p>Detail konfigurasi & komunikasi IoT</p>
+        <div class="panel-header">
+          <div>
+            <h2>Parameter Threshold Telemetri</h2>
+            <p>Batas ambang otomatisasi penyiraman nursery</p>
+          </div>
+          <i data-lucide="sliders-horizontal" class="h-4 w-4 text-emerald-500"></i>
+        </div>
+        <div class="space-y-4">
+          <label class="form-label">
+            <span>Batas Kelembapan Media Minimum (%)</span>
+            <input type="number" value="62" class="w-full">
+          </label>
+          <label class="form-label">
+            <span>Batas Suhu Udara Maksimum (°C)</span>
+            <input type="number" value="30" class="w-full">
+          </label>
+          <label class="form-label">
+            <span>Durasi Siram Default (detik)</span>
+            <input type="number" value="45" class="w-full">
+          </label>
+        </div>
       </div>
-      <i data-lucide="radio" class="h-4 w-4 text-emerald-400"></i>
-    </div>
-    <div class="grid gap-4 sm:grid-cols-3">
-      <article class="info-tile">
-        <span>Nama Device ID</span>
-        <strong class="text-zinc-100">{{ device_status.esp32.name }}</strong>
-      </article>
-      <article class="info-tile">
-        <span>Status Konektivitas</span>
-        <strong class="text-emerald-400 inline-flex items-center gap-2">
-          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          {{ device_status.esp32.status }}
-        </strong>
-      </article>
-      <article class="info-tile">
-        <span>REST Endpoint Ingestion</span>
-        <strong class="font-mono text-xs text-zinc-300">/api/sensors/latest</strong>
-      </article>
-    </div>
-  </section>
+      <div class="mt-6 border-t border-slate-200 dark:border-zinc-800/80 pt-4">
+        <button onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Parameter threshold berhasil disimpan!', type: 'success' } }))"
+                class="inline-flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition-colors shadow-md">
+          <i data-lucide="check" class="h-4 w-4"></i> Simpan Threshold
+        </button>
+      </div>
+    </section>
+
+    <!-- Hardware ESP32 Info Panel -->
+    <section class="panel flex flex-col justify-between">
+      <div>
+        <div class="panel-header">
+          <div>
+            <h2>Informasi Node Controller ESP32</h2>
+            <p>Detail konfigurasi & komunikasi IoT</p>
+          </div>
+          <i data-lucide="radio" class="h-4 w-4 text-emerald-500"></i>
+        </div>
+        <div class="space-y-3">
+          <article class="info-tile">
+            <span>Nama Device ID</span>
+            <strong class="text-zinc-900 dark:text-zinc-100">{{ device_status.esp32.name }}</strong>
+          </article>
+          <article class="info-tile">
+            <span>Status Konektivitas</span>
+            <strong class="text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              {{ device_status.esp32.status }}
+            </strong>
+          </article>
+          <article class="info-tile">
+            <span>REST Endpoint Ingestion</span>
+            <strong class="font-mono text-xs text-zinc-700 dark:text-zinc-300">/api/sensors/latest</strong>
+          </article>
+        </div>
+      </div>
+      <div class="mt-6 border-t border-slate-200 dark:border-zinc-800/80 pt-4">
+        <button onclick="window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Ping koneksi ESP32 berhasil!', type: 'success' } }))"
+                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-zinc-700 bg-slate-100 dark:bg-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-800 dark:text-zinc-100 hover:bg-slate-200 dark:hover:bg-zinc-700 transition-colors">
+          <i data-lucide="refresh-cw" class="h-4 w-4"></i> Tes Koneksi ESP32
+        </button>
+      </div>
+    </section>
+  </div>
 </div>
 {% endblock %}
-

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Computer Vision | Monitoring Pembibitan Padi{% endblock %}
-{% block page_title %}Deteksi Health & Pertumbuhan Bibit{% endblock %}
+{% block title %}Analisis Visual | MyBibitGue{% endblock %}
+{% block page_title %}Analisis Visual{% endblock %}
 
 {% block content %}
 <div class="grid gap-6 lg:grid-cols-12">
@@ -11,24 +11,24 @@
         <h2>Kamera Observasi Persemaian</h2>
         <p>Tampilan visual bibit padi & analisis AI</p>
       </div>
-      <div class="flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-400">
-        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <div class="flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
         <span>AI Vision Active</span>
       </div>
     </div>
     
-    <div class="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl">
-      <img class="aspect-[4/3] w-full object-cover opacity-90 transition-transform duration-300 hover:scale-105" src="{{ vision.image_path }}" alt="Bibit padi">
+    <div class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-950 shadow-xl">
+      <img class="aspect-[4/3] w-full object-cover opacity-95 transition-transform duration-300 hover:scale-105" src="{{ vision.image_path }}" alt="Bibit padi">
       <!-- AI Overlay Badge -->
-      <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-lg border border-zinc-700/80 bg-zinc-900/90 p-3 backdrop-blur">
+      <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-slate-200/80 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-900/90 p-3 backdrop-blur shadow-lg">
         <div class="flex items-center gap-2.5">
-          <i data-lucide="scan" class="h-5 w-5 text-emerald-400"></i>
+          <i data-lucide="scan" class="h-5 w-5 text-emerald-500"></i>
           <div>
-            <p class="text-xs font-semibold text-zinc-100">Kondisi: {{ vision.result }}</p>
-            <p class="text-[10px] text-zinc-400">Model: YOLOv8 Nursery Classifier</p>
+            <p class="text-xs font-bold text-zinc-900 dark:text-zinc-100">Kondisi: {{ vision.result }}</p>
+            <p class="text-[10px] text-zinc-500 dark:text-zinc-400">Model: YOLOv8 Nursery Classifier</p>
           </div>
         </div>
-        <span class="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-400">{{ vision.confidence }}% Conf</span>
+        <span class="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">{{ vision.confidence }}% Conf</span>
       </div>
     </div>
   </section>
@@ -42,15 +42,15 @@
           <h2>Hasil Diagnosa Terbaru</h2>
           <p>Kategori kesehatan bibit padi</p>
         </div>
-        <i data-lucide="sparkles" class="h-4 w-4 text-emerald-400"></i>
+        <i data-lucide="sparkles" class="h-4 w-4 text-emerald-500"></i>
       </div>
       <div class="grid gap-3 sm:grid-cols-2">
         <article class="info-tile">
           <span>Kondisi Visual Bibit</span>
-          <strong class="text-emerald-400">{{ vision.result }}</strong>
+          <strong class="text-emerald-600 dark:text-emerald-400">{{ vision.result }}</strong>
         </article>
-        <article class="info-tile"><span>Tingkat Keyakinan</span><strong class="text-emerald-400">{{ vision.confidence }}%</strong></article>
-        <article class="info-tile sm:col-span-2"><span>Waktu Capture</span><strong class="text-xs text-zinc-300">{{ vision.created_at }}</strong></article>
+        <article class="info-tile"><span>Tingkat Keyakinan</span><strong class="text-emerald-600 dark:text-emerald-400">{{ vision.confidence }}%</strong></article>
+        <article class="info-tile sm:col-span-2"><span>Waktu Capture</span><strong class="text-xs text-zinc-700 dark:text-zinc-300">{{ vision.created_at }}</strong></article>
       </div>
     </div>
 
@@ -66,10 +66,10 @@
       <ul class="activity-list">
         {% for item in vision_history %}
         <li>
-          <i data-lucide="check-circle-2" class="h-4 w-4 text-emerald-400 shrink-0 mt-0.5"></i>
+          <i data-lucide="check-circle-2" class="h-4 w-4 text-emerald-500 shrink-0 mt-0.5"></i>
           <div>
-            <p class="font-medium text-zinc-200">{{ item.result }}</p>
-            <p class="text-xs text-zinc-400">Confidence score {{ item.confidence }}%</p>
+            <p class="font-semibold text-zinc-900 dark:text-zinc-200">{{ item.result }}</p>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Confidence score {{ item.confidence }}%</p>
           </div>
         </li>
         {% endfor %}
@@ -78,4 +78,3 @@
   </section>
 </div>
 {% endblock %}
-

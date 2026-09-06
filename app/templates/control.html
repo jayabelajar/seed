@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Kontrol Perangkat | Monitoring Pembibitan Padi{% endblock %}
-{% block page_title %}Kontrol & Aktuasi Pompa{% endblock %}
+{% block title %}Kontrol Perangkat | MyBibitGue{% endblock %}
+{% block page_title %}Kontrol Perangkat{% endblock %}
 
 {% block content %}
 <div class="grid gap-6 lg:grid-cols-12">
@@ -12,39 +12,39 @@
           <h2>Kontrol Perangkat IoT</h2>
           <p>Manual & Otomatisasi Siram Bibit</p>
         </div>
-        <i data-lucide="sliders" class="h-4 w-4 text-emerald-400"></i>
+        <i data-lucide="sliders" class="h-4 w-4 text-emerald-500"></i>
       </div>
 
       <!-- Real-time Status Badges -->
       <div class="mb-6 space-y-2.5">
         <div class="status-row">
-          <span class="flex items-center gap-2 text-zinc-400">
+          <span class="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
             <i data-lucide="droplet" class="h-3.5 w-3.5"></i> Status Pompa
           </span>
-          <b id="pumpStatus" class="inline-flex items-center rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-400 font-semibold">{{ device_status.pump.status }}</b>
+          <b id="pumpStatus" class="inline-flex items-center rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">{{ device_status.pump.status }}</b>
         </div>
         <div class="status-row">
-          <span class="flex items-center gap-2 text-zinc-400">
+          <span class="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
             <i data-lucide="cog" class="h-3.5 w-3.5"></i> Mode Operasi
           </span>
-          <b id="pumpMode" class="text-xs text-zinc-200 font-semibold">{{ device_status.pump.mode }}</b>
+          <b id="pumpMode" class="text-xs text-zinc-800 dark:text-zinc-200 font-semibold">{{ device_status.pump.mode }}</b>
         </div>
         <div class="status-row">
-          <span class="flex items-center gap-2 text-zinc-400">
+          <span class="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
             <i data-lucide="radio" class="h-3.5 w-3.5"></i> Node ESP32
           </span>
-          <b class="inline-flex items-center rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-400 font-semibold">{{ device_status.esp32.status }}</b>
+          <b class="inline-flex items-center rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">{{ device_status.esp32.status }}</b>
         </div>
       </div>
 
       <!-- Control Buttons -->
       <div class="space-y-4">
-        <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400">Aksi Penyiraman</label>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Aksi Penyiraman</label>
         <div class="grid grid-cols-2 gap-3">
-          <button class="control-button border border-emerald-500/40 bg-emerald-600/90 text-white hover:bg-emerald-500 active:scale-95 shadow-lg shadow-emerald-950/40" data-pump="ON">
+          <button class="control-button border border-emerald-500/40 bg-emerald-600 text-white hover:bg-emerald-500 active:scale-95 shadow-md" data-pump="ON">
             <i data-lucide="power" class="h-4 w-4"></i> SIRAM (ON)
           </button>
-          <button class="control-button border border-rose-500/40 bg-rose-600/90 text-white hover:bg-rose-500 active:scale-95 shadow-lg shadow-rose-950/40" data-pump="OFF">
+          <button class="control-button border border-rose-500/40 bg-rose-600 text-white hover:bg-rose-500 active:scale-95 shadow-md" data-pump="OFF">
             <i data-lucide="power-off" class="h-4 w-4"></i> MATIKAN (OFF)
           </button>
         </div>
@@ -52,9 +52,9 @@
     </div>
 
     <!-- Mode Selector Dropdown -->
-    <div class="border-t border-zinc-800/80 pt-4">
-      <label for="pumpModeSelect" class="block text-xs font-medium text-zinc-300 mb-1.5">Pilih Mode Kontrol</label>
-      <select id="pumpModeSelect" class="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-sm text-zinc-100 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500">
+    <div class="border-t border-slate-200 dark:border-zinc-800/80 pt-4">
+      <label for="pumpModeSelect" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Pilih Mode Kontrol</label>
+      <select id="pumpModeSelect" class="w-full rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500">
         <option>Otomatis</option>
         <option>Manual</option>
       </select>
@@ -69,14 +69,14 @@
           <h2>Keputusan Penyiraman Cerdas</h2>
           <p>Hasil kalkulasi sistem fuzzy & telemetri</p>
         </div>
-        <i data-lucide="sparkles" class="h-4 w-4 text-emerald-400"></i>
+        <i data-lucide="sparkles" class="h-4 w-4 text-emerald-500"></i>
       </div>
 
       <!-- Metric Tiles Grid -->
       <div class="grid gap-3 sm:grid-cols-2">
         <article class="info-tile">
           <span>Keputusan Fuzzy Logic</span>
-          <strong class="text-emerald-400">{{ fuzzy.decision }}</strong>
+          <strong class="text-emerald-600 dark:text-emerald-400">{{ fuzzy.decision }}</strong>
         </article>
 
         <article class="info-tile">
@@ -91,18 +91,18 @@
 
         <article class="info-tile">
           <span>Aktuasi Terakhir</span>
-          <strong class="text-xs text-zinc-300">{{ device_status.pump.last_seen }}</strong>
+          <strong class="text-xs text-zinc-700 dark:text-zinc-300">{{ device_status.pump.last_seen }}</strong>
         </article>
       </div>
 
       <!-- Pump Action History Log -->
       <div class="mt-6">
-        <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Log Aktuasi Terbaru</h3>
+        <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Log Aktuasi Terbaru</h3>
         <ul class="activity-list" id="pumpLogList">
           {% for log in pump_logs %}
           <li>
-            <i data-lucide="power" class="h-4 w-4 text-emerald-400 shrink-0 mt-0.5"></i>
-            <span>Pompa <strong class="text-zinc-100">{{ log.status }}</strong> mode <strong>{{ log.mode }}</strong> durasi <strong>{{ log.duration }}</strong> dtk</span>
+            <i data-lucide="power" class="h-4 w-4 text-emerald-500 shrink-0 mt-0.5"></i>
+            <span>Pompa <strong class="text-zinc-900 dark:text-zinc-100">{{ log.status }}</strong> mode <strong>{{ log.mode }}</strong> durasi <strong>{{ log.duration }}</strong> dtk</span>
           </li>
           {% endfor %}
         </ul>
@@ -111,4 +111,3 @@
   </section>
 </div>
 {% endblock %}
-

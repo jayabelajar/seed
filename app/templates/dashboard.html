@@ -1,158 +1,223 @@
 {% extends "base.html" %}
-{% block title %}Dashboard | Monitoring Pembibitan Padi{% endblock %}
-{% block page_title %}Dashboard Telemetri{% endblock %}
+{% block title %}Dashboard | MyBibitGue{% endblock %}
+{% block page_title %}Ringkasan Sistem{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
-  <!-- Sensor Stats Grid -->
+  <!-- Simplified Executive Overview Cards Grid (No status pills/badges) -->
   <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-    <!-- Suhu Udara -->
+    <!-- Indeks Kesehatan Persemaian -->
     <article class="metric-card group">
       <div class="flex items-center justify-between">
-        <p class="text-xs font-medium uppercase tracking-wider text-zinc-400">Suhu Udara</p>
-        <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-rose-500/20 bg-rose-500/10 text-rose-400">
-          <i data-lucide="thermometer" class="h-4 w-4"></i>
+        <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Kesehatan Persemaian</p>
+        <div class="flex h-8 w-8 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <i data-lucide="shield-check" class="h-4 w-4"></i>
         </div>
       </div>
-      <div class="mt-3 flex items-baseline justify-between">
-        <span class="text-2xl font-bold tracking-tight text-zinc-100"><span data-sensor="temperature">{{ latest_sensor.temperature }}</span> <span class="text-lg font-normal text-zinc-400">°C</span></span>
-        <span class="inline-flex items-center gap-1 rounded-full border border-rose-500/20 bg-rose-500/10 px-2 py-0.5 text-[10px] font-medium text-rose-400">Ideal 25-32°C</span>
+      <div class="mt-3">
+        <span class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">96%</span>
       </div>
-      <p class="mt-2 text-[11px] text-zinc-400">Sensor DHT22 Nursery</p>
+      <p class="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">Parameter Suhu & Kelembapan Sesuai</p>
     </article>
 
-    <!-- Kelembapan Udara -->
+    <!-- Status Irigasi & Pompa -->
     <article class="metric-card group">
       <div class="flex items-center justify-between">
-        <p class="text-xs font-medium uppercase tracking-wider text-zinc-400">Kelembapan Udara</p>
-        <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-400">
-          <i data-lucide="droplets" class="h-4 w-4"></i>
+        <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Status Irigasi</p>
+        <div class="flex h-8 w-8 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400">
+          <i data-lucide="droplet" class="h-4 w-4"></i>
         </div>
       </div>
-      <div class="mt-3 flex items-baseline justify-between">
-        <span class="text-2xl font-bold tracking-tight text-zinc-100"><span data-sensor="humidity">{{ latest_sensor.humidity }}</span><span class="text-lg font-normal text-zinc-400">%</span></span>
-        <span class="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium text-blue-400">Stabil</span>
+      <div class="mt-3">
+        <span class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100" id="dashPumpStatus">{{ device_status.pump.status if device_status else 'OFF' }}</span>
       </div>
-      <p class="mt-2 text-[11px] text-zinc-400">Optimal persemaian</p>
+      <p class="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">Sistem Penyiraman Otomatis</p>
     </article>
 
-    <!-- Kelembapan Media -->
+    <!-- Keputusan Cerdas AI -->
     <article class="metric-card group">
       <div class="flex items-center justify-between">
-        <p class="text-xs font-medium uppercase tracking-wider text-zinc-400">Kelembapan Media</p>
-        <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
-          <i data-lucide="sprout" class="h-4 w-4"></i>
+        <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Keputusan AI Fuzzy</p>
+        <div class="flex h-8 w-8 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-600 dark:text-purple-400">
+          <i data-lucide="cpu" class="h-4 w-4"></i>
         </div>
       </div>
-      <div class="mt-3 flex items-baseline justify-between">
-        <span class="text-2xl font-bold tracking-tight text-zinc-100"><span data-sensor="soil_moisture">{{ latest_sensor.soil_moisture }}</span><span class="text-lg font-normal text-zinc-400">%</span></span>
-        <span class="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">Fuzzy Aktif</span>
+      <div class="mt-3">
+        <span class="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 truncate block">{{ fuzzy.decision }}</span>
       </div>
-      <p class="mt-2 text-[11px] text-zinc-400">Kelembapan tanah bibit</p>
+      <p class="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">Inferensi Logika Mamdani</p>
     </article>
 
-    <!-- Intensitas Cahaya -->
+    <!-- Total Telemetri 24 Jam -->
     <article class="metric-card group">
       <div class="flex items-center justify-between">
-        <p class="text-xs font-medium uppercase tracking-wider text-zinc-400">Intensitas Cahaya</p>
-        <div class="flex h-8 w-8 items-center justify-center rounded-lg border border-amber-500/20 bg-amber-500/10 text-amber-400">
-          <i data-lucide="sun" class="h-4 w-4"></i>
+        <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Rekam Data 24 Jam</p>
+        <div class="flex h-8 w-8 items-center justify-center rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400">
+          <i data-lucide="database" class="h-4 w-4"></i>
         </div>
       </div>
-      <div class="mt-3 flex items-baseline justify-between">
-        <span class="text-2xl font-bold tracking-tight text-zinc-100"><span data-sensor="light_intensity">{{ latest_sensor.light_intensity|int }}</span> <span class="text-lg font-normal text-zinc-400">lux</span></span>
-        <span class="inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-400">Sensor BH1750</span>
+      <div class="mt-3">
+        <span class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">1,440</span>
       </div>
-      <p class="mt-2 text-[11px] text-zinc-400">Pencahayaan alami</p>
+      <p class="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">Logging Telemetri Real-Time</p>
     </article>
   </section>
 
-  <!-- Main Chart & Side Panels -->
-  <section class="grid gap-6 lg:grid-cols-3">
-    <!-- Chart Panel (2 Cols) -->
-    <div class="panel lg:col-span-2">
-      <div class="panel-header">
-        <div>
-          <h2>Grafik Telemetri Real-Time</h2>
-          <p>Histori pembacaan sensor 6 jam terakhir</p>
+  <!-- 4 Separate Dedicated Charts Grid (2x2 Grid) -->
+  <section>
+    <div class="grid gap-6 md:grid-cols-2">
+      <!-- Chart 1: Suhu Udara -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="flex items-center gap-2">
+            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-500/10 text-rose-500 border border-rose-500/20">
+              <i data-lucide="thermometer" class="h-4 w-4"></i>
+            </div>
+            <div>
+              <h2>Suhu Udara (°C)</h2>
+              <p>Sensor DHT22 Nursery</p>
+            </div>
+          </div>
         </div>
-        <div class="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs text-zinc-400">
-          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Live Update</span>
+        <div class="chart-box">
+          <canvas id="chartTemperature"></canvas>
         </div>
       </div>
-      <div class="chart-box">
-        <canvas id="sensorChart"></canvas>
+
+      <!-- Chart 2: Kelembapan Udara -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="flex items-center gap-2">
+            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20">
+              <i data-lucide="droplets" class="h-4 w-4"></i>
+            </div>
+            <div>
+              <h2>Kelembapan Udara (%)</h2>
+              <p>Kelembapan nisbi RH</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <canvas id="chartHumidity"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 3: Kelembapan Media -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="flex items-center gap-2">
+            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+              <i data-lucide="sprout" class="h-4 w-4"></i>
+            </div>
+            <div>
+              <h2>Kelembapan Media (%)</h2>
+              <p>Kondisi media tanam bibit</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <canvas id="chartSoil"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 4: Intensitas Cahaya -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="flex items-center gap-2">
+            <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20">
+              <i data-lucide="sun" class="h-4 w-4"></i>
+            </div>
+            <div>
+              <h2>Intensitas Cahaya (lux)</h2>
+              <p>Sensor BH1750 Ambient</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <canvas id="chartLight"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 Side-by-Side Data Table Snippets -->
+  <section class="grid gap-6 lg:grid-cols-2">
+    <!-- Table 1: Cuplikan Data Sensor Telemetri -->
+    <div class="panel overflow-hidden">
+      <div class="panel-header">
+        <div>
+          <h2>Cuplikan Data Telemetri</h2>
+          <p>6 pembacaan sensor terbaru</p>
+        </div>
+        <a href="/monitoring" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1">
+          <span>Lihat Semua</span>
+          <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i>
+        </a>
+      </div>
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Suhu</th>
+              <th>Lembap Udara</th>
+              <th>Lembap Tanah</th>
+              <th>Cahaya</th>
+            </tr>
+          </thead>
+          <tbody id="dashSensorTable">
+            {% for row in history[-6:]|reverse %}
+            <tr>
+              <td class="font-semibold text-zinc-800 dark:text-zinc-200 text-[11px]">{{ row.created_at[-8:] }}</td>
+              <td><span class="text-rose-500 font-medium">{{ row.temperature }}°C</span></td>
+              <td><span class="text-blue-500 font-medium">{{ row.humidity }}%</span></td>
+              <td><span class="text-emerald-500 font-medium">{{ row.soil_moisture }}%</span></td>
+              <td><span class="text-amber-500 font-medium">{{ row.light_intensity|int }} lx</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- Side Panels (1 Col) -->
-    <div class="space-y-6">
-      <!-- Device Status Card -->
-      <div class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Status Hardware IoT</h2>
-            <p>Perangkat terhubung & kontrol</p>
-          </div>
-          <i data-lucide="cpu" class="h-4 w-4 text-emerald-400"></i>
+    <!-- Table 2: Cuplikan Log Keputusan Fuzzy Logic -->
+    <div class="panel overflow-hidden">
+      <div class="panel-header">
+        <div>
+          <h2>Cuplikan Log AI Fuzzy</h2>
+          <p>Keputusan otomatisasi sistem terkini</p>
         </div>
-        <div class="space-y-2.5">
-          <div class="status-row">
-            <span class="flex items-center gap-2">
-              <i data-lucide="radio" class="h-3.5 w-3.5 text-zinc-400"></i> Controller ESP32
-            </span>
-            <b id="deviceEsp32" class="inline-flex items-center rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-400">{{ device_status.esp32.status }}</b>
-          </div>
-          <div class="status-row">
-            <span class="flex items-center gap-2">
-              <i data-lucide="droplet" class="h-3.5 w-3.5 text-zinc-400"></i> Pompa Penyiraman
-            </span>
-            <b id="pumpStatus" class="inline-flex items-center rounded-md border border-zinc-700 bg-zinc-800 px-2 py-0.5 text-xs text-zinc-200">{{ device_status.pump.status }}</b>
-          </div>
-          <div class="status-row">
-            <span class="flex items-center gap-2">
-              <i data-lucide="cog" class="h-3.5 w-3.5 text-zinc-400"></i> Mode Kontrol
-            </span>
-            <b id="pumpMode" class="text-xs text-zinc-300">{{ device_status.pump.mode }}</b>
-          </div>
-        </div>
+        <a href="/fuzzy" class="text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-1">
+          <span>Detail Fuzzy</span>
+          <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i>
+        </a>
       </div>
-
-      <!-- Recent Activities Feed -->
-      <div class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Aktivitas Terbaru</h2>
-            <p>Log sistem & keputusan AI</p>
-          </div>
-          <i data-lucide="activity" class="h-4 w-4 text-emerald-400"></i>
-        </div>
-        <ul class="activity-list">
-          <li>
-            <i data-lucide="sparkles" class="h-4 w-4 text-emerald-400 shrink-0 mt-0.5"></i>
-            <div>
-              <p class="font-medium text-zinc-200">Fuzzy Logic</p>
-              <p class="text-xs text-zinc-400">{{ fuzzy.decision }} selama {{ fuzzy.duration }} detik</p>
-            </div>
-          </li>
-          <li>
-            <i data-lucide="scan-eye" class="h-4 w-4 text-blue-400 shrink-0 mt-0.5"></i>
-            <div>
-              <p class="font-medium text-zinc-200">Computer Vision</p>
-              <p class="text-xs text-zinc-400">{{ vision.result }} (Conf: {{ vision.confidence }}%)</p>
-            </div>
-          </li>
-          {% for log in pump_logs[:2] %}
-          <li>
-            <i data-lucide="power" class="h-4 w-4 text-amber-400 shrink-0 mt-0.5"></i>
-            <div>
-              <p class="font-medium text-zinc-200">Pompa {{ log.status }}</p>
-              <p class="text-xs text-zinc-400">Mode {{ log.mode }} ({{ log.duration }} dtk)</p>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Status Pompa</th>
+              <th>Mode</th>
+              <th>Durasi (Dtk)</th>
+              <th>Aturan Aktif</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for log in pump_logs[:5] %}
+            <tr>
+              <td>
+                <span class="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-semibold {% if log.status == 'ON' %}bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20{% else %}bg-slate-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700{% endif %}">
+                  <span class="h-1.5 w-1.5 rounded-full {% if log.status == 'ON' %}bg-emerald-500{% else %}bg-zinc-400{% endif %}"></span>
+                  {{ log.status }}
+                </span>
+              </td>
+              <td class="font-medium text-zinc-700 dark:text-zinc-300 text-xs">{{ log.mode }}</td>
+              <td class="font-semibold text-zinc-800 dark:text-zinc-200 text-xs">{{ log.duration }} dtk</td>
+              <td class="text-xs text-zinc-500 dark:text-zinc-400">Rule {{ loop.index }}: Soil & Temp Mamdani</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -160,6 +225,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>window.pageChart = { type: "dashboard", endpoint: "/api/sensors/history?hours=6" };</script>
+<script>window.pageChart = { type: "dashboard_multi", endpoint: "/api/sensors/history?hours=6" };</script>
 {% endblock %}
-

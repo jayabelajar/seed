@@ -25,6 +25,7 @@ def render(request: Request, template_name: str, active_page: str, **context: ob
 
 
 @router.get("/", response_class=HTMLResponse)
+@router.get("/login", response_class=HTMLResponse)
 def root(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(request, "login.html", {"active_page": "login"})
 
@@ -36,6 +37,11 @@ def login(username: str = Form(...), password: str = Form(...)) -> RedirectRespo
     return RedirectResponse(url="/dashboard", status_code=303)
 
 
+@router.get("/logout")
+def logout() -> RedirectResponse:
+    return RedirectResponse(url="/login", status_code=303)
+
+
 @router.get("/dashboard", response_class=HTMLResponse)
 def dashboard(request: Request) -> HTMLResponse:
     return render(
@@ -45,6 +51,7 @@ def dashboard(request: Request) -> HTMLResponse:
         fuzzy=data_service.get_latest_fuzzy_result(),
         vision=data_service.get_latest_vision_result(),
         pump_logs=data_service.get_pump_logs(),
+        history=data_service.get_sensor_history(),
     )
 
 
